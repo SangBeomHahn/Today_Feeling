@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="..\static\assets\css\style.css">
+    <title>로그인</title>
+</head>
+
+<body class="main">
+    <div class = "main">
+        <div id = "loginBox">
+            <h2>아이디</h2>
+            <span><input type="text" id = "userId" placeholder="아이디를 입력하세요"></span>
+    
+            <h2>패스워드</h2>
+            <span><input type="password" id = "userPw" placeholder="패스워드를 입력하세요"></span>
+
+            <br>
+            <br>
+            <button onclick="login()" id = "loginBtn">로그인</button>
+        </div>
+        
+    </div>
+    <button class = 'mainBtn' onclick="window.location.href='/'">메인페이지</button>
+
+</body>
+<script>
+    async function login(){
+
+        let userId = document.querySelector("#userId").value;
+        let userPw = document.querySelector("#userPw").value;   
+
+        let urlParams = {
+            userId: userId,
+            userPw: userPw,
+        };
+
+        let urlParamsjson = JSON.stringify(urlParams)
+
+        let fetchOptions = {
+            method: "POST",
+            body: urlParamsjson,
+        }
+
+        let response = await fetch("/member/login", fetchOptions);
+        console.log(response);
+        let data = await response.json();
+        if( data.result == "success" ){
+            // document.querySelector("#loginBox").insertAdjacentHTML("beforeend",
+            // `<div>로그인 성공~</div>`
+            // )
+            alert("로그인 성공!");
+            // window.location.href="/";
+        }else{
+            alert("아이디 또는 비밀번호가 올바르지 않습니다.");
+            // window.location.href="/login";
+        }
+}
+</script>
+</html>
